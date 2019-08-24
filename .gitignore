@@ -1,0 +1,6 @@
+compile_commands.json
+*.so
+*.dylib
+*.dSYM
+*.o
+test
