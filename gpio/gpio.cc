@@ -19,7 +19,7 @@ namespace GPIO {
       perror("mmap");
       exit(errno);
     }
-    std::cout << "mmap done: " << (void *)reg << '\n';
+    //std::cout << "mmap done: " << (void *)reg << '\n';
   }
 
   GPIO::~GPIO() {
