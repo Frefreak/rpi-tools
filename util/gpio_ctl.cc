@@ -12,6 +12,6 @@ int main(int argc, char **argv)
   auto gpio = GPIO::GPIO();
   gpio.set_func(pin, GPIO::output);
   gpio.set_out(pin, st);
-  std::cout << (uint32_t)gpio.get(pin) << std::endl;
+  // std::cout << (uint32_t)gpio.get(pin) << std::endl;
   return 0;
 }

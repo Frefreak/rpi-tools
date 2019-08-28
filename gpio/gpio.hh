@@ -74,7 +74,7 @@ namespace GPIO {
       mode = static_cast<func>(mode & 0b111);
       uint8_t shift = (pin % 10) * 3;
       uint8_t val = ((*reg) >> shift) & 0b111;
-      uint8_t mask = (val ^ mode) << shift;
+      uint32_t mask = (val ^ mode) << shift;
       *reg ^= mask;
     }
 
