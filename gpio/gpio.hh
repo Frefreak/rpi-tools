@@ -49,7 +49,7 @@ namespace GPIO {
       uint8_t reg_offset = (level? GPSET_OFFSET: GPCLR_OFFSET) + pin / 32 * 4;
       uint32_t *out_reg = (uint32_t *)(reg + reg_offset);
       uint8_t shift = pin % 32;
-      *out_reg |= 1 << shift;
+      *out_reg = 1 << shift;
     }
 
     inline level get(uint8_t pin) {

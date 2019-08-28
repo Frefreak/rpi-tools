@@ -5,7 +5,6 @@ MATPLOTLIB_CPP_FLAGS = $(shell pkg-config python3 --cflags --libs)
 MATPLOTLIB_CPP_FLAGS += -I$(MATPLOTLIB_CPP_DIR)
 MATPLOTLIB_CPP_FLAGS += -I$(NUMPY_DIR)/core/include
 
-
 UNAME_S := $(shell uname -s)
 
 GPIO_DIR = $(shell pwd)/../gpio
