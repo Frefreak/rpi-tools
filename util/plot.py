@@ -27,8 +27,8 @@ def main():
     x = range(len(y))
     #  plt.figure(figsize=(10 * len(y), 480))
     plt.step(x, y)
-    plt.show()
-    #  plt.savefig('test.png')
+    #  plt.show()
+    plt.savefig('test.png')
 
 
 
