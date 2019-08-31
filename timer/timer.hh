@@ -1,7 +1,7 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <time.h>
+#include <sys/time.h>
 #include <sched.h>
 #include <stdio.h>
 
@@ -12,7 +12,9 @@ namespace Timer {
     void set_duration(unsigned int usecs);
     void do_delay();
   private:
-    struct timespec *duration = nullptr;
+    struct timeval *duration = nullptr;
+    struct timeval start;
+    struct timeval end;
   };
 }
 

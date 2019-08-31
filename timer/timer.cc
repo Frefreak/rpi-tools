@@ -17,13 +17,17 @@ namespace Timer {
   }
 
   void Timer::set_duration(unsigned int usecs) {
-    this->duration = new struct timespec();
+    this->duration = new struct timeval();
     this->duration->tv_sec = 0;
-    this->duration->tv_nsec = usecs * 1000;
+    this->duration->tv_usec = usecs;
   }
 
   void Timer::do_delay() {
-    nanosleep(this->duration, NULL);
+    gettimeofday(&this->start, NULL);
+    timeradd(&this->start, this->duration, &this->end);
+    while (timercmp(&this->start, &this->end, <)) {
+      gettimeofday (&this->start, NULL) ;
+    }
   }
 }
 
