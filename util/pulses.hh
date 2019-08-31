@@ -21,7 +21,7 @@ void write_pulses(pulses_t &sample, char *fn)
     exit(EXIT_FAILURE);
   }
   std::cout << "data length: " << sample.length << "\n";
-  std::cout << "total length: " << 13 + sample.length << "\n";
+  std::cout << "total length: " << 16 + sample.length << "\n";
   std::cout << "writing...\n";
   fwrite(&sample.pin, sizeof(sample.pin), 1, fp);
   fwrite(&sample.interval, sizeof(sample.interval), 1, fp);

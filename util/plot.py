@@ -11,7 +11,7 @@ parser.add_argument('file')
 
 Pulses = namedtuple('Pulses', ['pin', 'interval', 'length', 'data'])
 
-PREFIX_SZ = 13
+PREFIX_SZ = 16
 
 def read_file(fn):
     with open(fn, 'rb') as f:
