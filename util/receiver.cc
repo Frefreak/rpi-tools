@@ -6,9 +6,8 @@
 
 // no overflow checks, interval should be small enough
 // interval is in micro second, duration in second
-pulses sample(uint8_t pin, uint32_t interval, float duration)
+pulses sample(uint32_t pin, uint32_t interval, float duration)
 {
-  long long nanosec = static_cast<long long>(interval * 1000);
   uint64_t iter = duration / interval * 1000000 + 1;
   auto gpio = GPIO::GPIO();
 
@@ -22,6 +21,7 @@ pulses sample(uint8_t pin, uint32_t interval, float duration)
 
   auto timer = Timer::Timer();
   timer.set_duration(interval);
+  std::cout << pin << ' ' << interval << '\n';
   for (long long i = 0; i < iter; i++) {
     data[i] = gpio.get(pin);
     timer.do_delay();
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
       " <pin> <interval in microsec> <duration in seconds> <output>\n";
     exit(EXIT_FAILURE);
   }
-  uint8_t pin = atoi(argv[1]);
+  uint32_t pin = atoi(argv[1]);
   uint32_t interval = atol(argv[2]);
   float duration = atof(argv[3]);
   std::cout << "capturing...\n";
