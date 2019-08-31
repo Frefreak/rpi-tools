@@ -6,18 +6,19 @@ namespace NEC {
   std::vector<segment> NEC::modulate(std::vector<uint32_t> &seqs)
   {
     std::vector<segment> segs = std::vector<segment>();
-    float period = 1000000 / carrier_freq;
-    int half_p = round(period / 2);
+    float period = 1000000. / carrier_freq;
+    int duty = round(period / 4);
+    int no_duty = round(period - duty);
     for (unsigned int i = 1; i <= seqs.size(); i++) {
       if (i % 2) { // 1, modulate to carrier wave
-        int cycle = round(seqs[i] / period);
+        int cycle = round(seqs[i - 1] / period);
         for (int j = 0; j < cycle; j++) {
-          segs.push_back(mk_seg(half_p, 1));
-          segs.push_back(mk_seg(half_p, 0));
+          segs.push_back(mk_seg(duty, 1));
+          segs.push_back(mk_seg(no_duty, 0));
         }
 
       } else { // 0, just wait
-        segs.push_back(mk_seg(seqs[i], 0));
+        segs.push_back(mk_seg(seqs[i - 1], 0));
       }
     }
 
@@ -59,7 +60,7 @@ namespace NEC {
         sequences.push_back(PREFIX);
       }
     }
-
+    gpio->set_out(pin, 0);
     auto segs = modulate(sequences);
     for (segment seg: segs) {
       if (seg.level)
@@ -69,6 +70,7 @@ namespace NEC {
       timer->set_duration(seg.duration);
       timer->do_delay();
     }
+    gpio->set_out(pin, 0);
   }
 
 }
