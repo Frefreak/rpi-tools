@@ -21,7 +21,7 @@ pulses sample(uint8_t pin, uint32_t interval, float duration)
   gpio.set_func(pin, GPIO::input);
 
   auto timer = Timer::Timer();
-  timer.set_duration(duration);
+  timer.set_duration(interval);
   for (long long i = 0; i < iter; i++) {
     data[i] = gpio.get(pin);
     timer.do_delay();
