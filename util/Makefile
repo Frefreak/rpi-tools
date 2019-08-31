@@ -42,4 +42,4 @@ pulse_wave: pulse_wave.cc
 .PHONY: clean
 
 clean:
-	rm -rf receiver replay gpio_ctl
+	rm -rf receiver replay gpio_ctl pulse_wave

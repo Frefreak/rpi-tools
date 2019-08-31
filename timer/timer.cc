@@ -5,10 +5,10 @@ namespace Timer {
 #ifdef __linux
     struct sched_param param = {};
     // should be fine?
-    param.sched_priority = 10;
+    param.sched_priority = 1;
     if (sched_setscheduler(0, SCHED_FIFO, &param) == -1) {
       perror("sched_setscheduler");
-      fprintf(stderr, "timer functionality will be inaccurate!");
+      fprintf(stderr, "timer functionality will be inaccurate!\n");
     }
 #elif __APPLE__
     fprintf(stderr, "this is not meant to be used in mac, just make it compiles");
