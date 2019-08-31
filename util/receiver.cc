@@ -22,6 +22,7 @@ pulses sample(uint8_t pin, float interval, float duration)
     perror(info.c_str());
     exit(EXIT_FAILURE);
   }
+  gpio.set_func(pin, GPIO::input);
   for (long long i = 0; i < iter; i++) {
     data[i] = gpio.get(pin);
     nanosleep(&ts, NULL);

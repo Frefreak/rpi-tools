@@ -32,4 +32,4 @@ gpio_ctl: gpio_ctl.cc
 .PHONY: clean
 
 clean:
-	rm -rf test_matplotlib receiver replay
+	rm -rf receiver replay gpio_ctl
