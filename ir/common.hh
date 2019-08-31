@@ -8,4 +8,9 @@ typedef struct segment {
   uint32_t level : 1;
 } segment;
 
+segment mk_seg(uint32_t duration, uint32_t level)
+{
+  return segment{duration, level > 0? 1u: 0u};
+}
+
 #endif /* COMMON_H */

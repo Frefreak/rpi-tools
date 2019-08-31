@@ -5,13 +5,16 @@
 #include <timer.hh>
 #include <vector>
 #include <cstdint>
+#include <stdio.h>
+#include "common.hh"
+
 namespace NEC {
   struct NEC {
     // no configuration for now
     NEC(uint32_t pin): pin(pin) {
-      gpio = GPIO::GPIO();
-      gpio.set_func(pin, GPIO::output);
-      timer = Timer::Timer();
+      gpio = new GPIO::GPIO();
+      gpio->set_func(pin, GPIO::output);
+      timer = new Timer::Timer();
     };
 
     // send a standard nec packet
@@ -25,8 +28,8 @@ namespace NEC {
 
   private:
     uint32_t pin;
-    GPIO::GPIO gpio;
-    Timer::Timer timer;
+    GPIO::GPIO *gpio;
+    Timer::Timer *timer;
     // all time constants are in microseconds
     // https://techdocs.altium.com/display/FPGA/NEC+Infrared+Transmission+Protocol
     uint32_t LEADING_PULSE = 9000; // 9 ms of leading agc pulse
@@ -37,6 +40,8 @@ namespace NEC {
     uint32_t ZERO_SUFFIX = PREFIX;
     uint32_t ONE_SUFFIX = 3 * PREFIX;
     uint32_t carrier_freq = 38222; // 38.222 KHZ carrier
+
+    std::vector<segment> modulate(std::vector<uint32_t> &);
   };
 }
 
