@@ -27,10 +27,10 @@ test_matplotlib: test_matplotlib.cc
 	g++ $< $(CFLAGS) $(MATPLOTLIB_CPP_FLAGS) -o $@
 
 receiver: receiver.cc pulses.hh
-	g++ $< $(CFLAGS) $(GPIO_FLAGS) -o $@
+	g++ $< $(CFLAGS) $(GPIO_FLAGS) $(TIMER_FLAGS) -o $@
 
 replay: replay.cc pulses.hh
-	g++ $< $(CFLAGS) $(GPIO_FLAGS) -o $@
+	g++ $< $(CFLAGS) $(GPIO_FLAGS) $(TIMER_FLAGS) -o $@
 
 gpio_ctl: gpio_ctl.cc
 	g++ $< $(CFLAGS) $(GPIO_FLAGS) -o $@
