@@ -6,7 +6,7 @@ endif
 
 ifeq ($(UNAME_S), Darwin)
 	SO_EXT = .dylib
-	LIB_FLAGS = -install_name @rpath/libgpio.dylib
+	LIB_FLAGS = -install_name @rpath/libtimer.dylib
 endif
 
 all: libtimer$(SO_EXT)
