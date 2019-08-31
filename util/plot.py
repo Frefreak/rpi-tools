@@ -16,7 +16,7 @@ PREFIX_SZ = 13
 def read_file(fn):
     with open(fn, 'rb') as f:
         prefix = f.read(PREFIX_SZ)
-        (pin, interval, length) = struct.unpack('<BfQ', prefix)
+        (pin, interval, length) = struct.unpack('<IIQ', prefix)
         data = f.read(length)
     return Pulses(pin, interval, length, data)
 
