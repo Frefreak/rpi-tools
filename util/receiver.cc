@@ -9,7 +9,7 @@
 pulses sample(uint8_t pin, uint32_t interval, float duration)
 {
   long long nanosec = static_cast<long long>(interval * 1000);
-  uint64_t iter = duration / interval * 100000 + 1;
+  uint64_t iter = duration / interval * 1000000 + 1;
   auto gpio = GPIO::GPIO();
 
   uint8_t *data = (uint8_t *)(malloc(iter));
