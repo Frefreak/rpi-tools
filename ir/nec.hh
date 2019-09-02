@@ -54,6 +54,8 @@ namespace NEC {
       timer = new Timer::Timer(); // use timer constructor to change scheduler
     };
 
+    bool wait_for_leader(uint32_t duration);
+
     // try to sniff a standand nec frame, expecting nec starting frame
     void recv_nec(uint32_t duration); // microseconds
 
@@ -61,14 +63,14 @@ namespace NEC {
     void recv_nec_ex(uint32_t duration);
 
     // try to sniff an code, expecting nec starting frame
-    void recv_nec_custom(uint32_t duration);
+    std::vector<uint32_t> recv_nec_custom(uint32_t duration);
 
-    bool wait_for_leader(uint32_t duration);
   private:
     uint32_t pin;
     GPIO::GPIO *gpio;
     Timer::Timer *timer;
     bool low_active = true;
+    GPIO::level active = 0;
   };
 }
 

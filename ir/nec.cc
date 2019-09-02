@@ -111,12 +111,6 @@ namespace NEC {
     gettimeofday(&now, NULL);
     timeradd(&now, &dur, &end);
 
-    GPIO::level active;
-    if (low_active)
-      active = 0;
-    else
-      active = 1;
-
     int state = 1;
     // 1 -> start
     // 2 -> reading AGC
@@ -162,5 +156,44 @@ namespace NEC {
       }
     }
     return 0;
+  }
+
+  std::vector<uint32_t> NEC_RECV::recv_nec_custom(uint32_t duration) {
+    std::vector<uint32_t> result;
+    if (wait_for_leader(duration)) {
+      struct timeval start, end, diff;
+      gettimeofday(&start, NULL);
+
+      // 1 -> active
+      // 2 -> inactive
+      int state = 1;
+      int cont = true;
+      while (cont) {
+        GPIO::level read = gpio->get(pin);
+        switch (state) {
+          case 1: if (read != active) {
+                    gettimeofday(&end, NULL);
+                    timersub(&end, &start, &diff);
+                    gettimeofday(&start, NULL);
+                    result.push_back(diff.tv_sec * 1000000 + diff.tv_usec);
+                    state = 2;
+                  }
+                  break;
+          case 2:
+                  gettimeofday(&end, NULL);
+                  timersub(&end, &start, &diff);
+                  if (read == active) {
+                    gettimeofday(&start, NULL);
+                    result.push_back(diff.tv_sec * 1000000 + diff.tv_usec);
+                    state = 1;
+                  } else {
+                    if (diff.tv_sec * 1000000 + diff.tv_usec > 500000)
+                      cont = false;
+                  }
+                  break;
+        }
+      }
+    }
+    return result;
   }
 }

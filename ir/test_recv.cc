@@ -4,7 +4,9 @@
 int main(void)
 {
   auto nec = NEC::NEC_RECV(24);
-  bool ok = nec.wait_for_leader(3000000);
-  std::cout << ok << '\n';
+  auto result = nec.recv_nec_custom(3000000);
+  for (auto t: result)
+    std::cout << t << ' ';
+  std::cout << '\n';
   return 0;
 }
