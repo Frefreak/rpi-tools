@@ -8,5 +8,11 @@ int main(void)
   for (auto t: result)
     std::cout << t << ' ';
   std::cout << '\n';
+
+  getchar();
+
+  auto nec2 = NEC::NEC(21);
+  nec2.send_nec_custom(result);
+
   return 0;
 }

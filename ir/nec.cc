@@ -159,7 +159,7 @@ namespace NEC {
   }
 
   std::vector<uint32_t> NEC_RECV::recv_nec_custom(uint32_t duration) {
-    std::vector<uint32_t> result;
+    std::vector<uint32_t> result = {9000, 4500};
     if (wait_for_leader(duration)) {
       struct timeval start, end, diff;
       gettimeofday(&start, NULL);
