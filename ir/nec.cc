@@ -133,9 +133,10 @@ namespace NEC {
                 break;
         case 2: if (read == !active) {
                   gettimeofday(&in_timer_n, NULL);
-                  timersub(&in_timer_s, &in_timer_n, &diff);
-                  // is 100us tolerance good enough
-                  if (diff.tv_sec == 0 && abs(diff.tv_usec - 9000) < 100) {
+                  timersub(&in_timer_n, &in_timer_s, &diff);
+                  long diff_usec = diff.tv_sec * 1000000 + diff.tv_usec;
+                  // is 400us tolerance good enough
+                  if (abs(diff_usec - 9000) < 400) {
                     state = 3;
                     gettimeofday(&in_timer_s, NULL);
                   } else {
@@ -145,9 +146,10 @@ namespace NEC {
                 break;
         case 3: if (read == active) {
                   gettimeofday(&in_timer_n, NULL);
-                  timersub(&in_timer_s, &in_timer_n, &diff);
-                  // is 100us tolerance good enough
-                  if (diff.tv_sec == 0 && abs(diff.tv_usec - 4500) < 100) {
+                  timersub(&in_timer_n, &in_timer_s, &diff);
+                  long diff_usec = diff.tv_sec * 1000000 + diff.tv_usec;
+                  // is 400us tolerance good enough
+                  if (abs(diff_usec - 4500) < 400) {
                     state = 4;
                     // detected
                   } else {
