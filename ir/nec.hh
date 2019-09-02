@@ -21,10 +21,11 @@ namespace NEC {
     void send_nec(uint8_t address, uint8_t command, int repeat=0);
 
     // send an extended nec packet (no inverse address)
-    void send_nec_ex(uint16_t address, uint8_t command);
+    void send_nec_ex(uint16_t address, uint8_t command, int repeat=0);
 
-    // TODO: send a packet with custom code (complex devices)
-    // void send_nec_custom();
+    // send a packet with custom code (for somewhat complex devices),
+    // starting with "one"
+    void send_nec_custom(std::vector<uint32_t> &);
 
   private:
     uint32_t pin;
@@ -42,6 +43,7 @@ namespace NEC {
     uint32_t carrier_freq = 38222; // 38.222 KHZ carrier
 
     std::vector<segment> modulate(std::vector<uint32_t> &);
+    void add_repeat_code(std::vector<uint32_t> &sequences, int repeat);
   };
 }
 
