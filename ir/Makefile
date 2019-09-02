@@ -36,7 +36,11 @@ test: test.cc libir$(SO_EXT)
 	g++ $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(GPIO_FLAGS) $(TIMER_FLAGS) \
 		test.cc -lir -o test
 
+test_recv: test_recv.cc libir$(SO_EXT)
+	g++ $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(GPIO_FLAGS) $(TIMER_FLAGS) \
+		test_recv.cc -lir -o test_recv
+
 .PHONY: clean
 
 clean:
-	rm -rf libir$(SO_EXT) test
+	rm -rf libir$(SO_EXT) test test_recv

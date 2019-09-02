@@ -102,4 +102,63 @@ namespace NEC {
     send_nec_custom(sequences);
   }
 
+
+  bool NEC_RECV::wait_for_leader(uint32_t duration) {
+    struct timeval now, dur, end;
+    struct timeval in_timer_s, in_timer_n, diff;
+    dur.tv_sec = 0;
+    dur.tv_usec = duration;
+    gettimeofday(&now, NULL);
+    timeradd(&now, &dur, &end);
+
+    GPIO::level active;
+    if (low_active)
+      active = 0;
+    else
+      active = 1;
+
+    int state = 1;
+    // 1 -> start
+    // 2 -> reading AGC
+    // 3 -> reading LONG PAUSE
+    // 4 -> ok
+    while (timercmp(&now, &end, <)) {
+      gettimeofday(&now, NULL);
+      GPIO::level read = gpio->get(pin);
+      switch (state) {
+        case 1: if (read == active) {
+                  state = 2;
+                  gettimeofday(&in_timer_s, NULL);
+                }
+                break;
+        case 2: if (read == !active) {
+                  gettimeofday(&in_timer_n, NULL);
+                  timersub(&in_timer_s, &in_timer_n, &diff);
+                  // is 100us tolerance good enough
+                  if (diff.tv_sec == 0 && abs(diff.tv_usec - 9000) < 100) {
+                    state = 3;
+                    gettimeofday(&in_timer_s, NULL);
+                  } else {
+                    state = 1;
+                  }
+                }
+                break;
+        case 3: if (read == active) {
+                  gettimeofday(&in_timer_n, NULL);
+                  timersub(&in_timer_s, &in_timer_n, &diff);
+                  // is 100us tolerance good enough
+                  if (diff.tv_sec == 0 && abs(diff.tv_usec - 4500) < 100) {
+                    state = 4;
+                    // detected
+                  } else {
+                    state = 1;
+                  }
+                }
+                break;
+        case 4:
+                return 1;
+      }
+    }
+    return 0;
+  }
 }

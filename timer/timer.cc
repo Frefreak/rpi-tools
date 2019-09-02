@@ -26,7 +26,7 @@ namespace Timer {
     gettimeofday(&this->start, NULL);
     timeradd(&this->start, this->duration, &this->end);
     while (timercmp(&this->start, &this->end, <)) {
-      gettimeofday (&this->start, NULL) ;
+      gettimeofday (&this->start, NULL);
     }
   }
 }

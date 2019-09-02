@@ -45,6 +45,31 @@ namespace NEC {
     std::vector<segment> modulate(std::vector<uint32_t> &);
     void add_repeat_code(std::vector<uint32_t> &sequences, int repeat);
   };
+
+  struct NEC_RECV {
+    // no configuration for now
+    NEC_RECV(uint32_t pin): pin(pin) {
+      gpio = new GPIO::GPIO();
+      gpio->set_func(pin, GPIO::input);
+      timer = new Timer::Timer(); // use timer constructor to change scheduler
+    };
+
+    // try to sniff a standand nec frame, expecting nec starting frame
+    void recv_nec(uint32_t duration); // microseconds
+
+    // try to sniff a standand nec frame (extended), expecting nec starting frame
+    void recv_nec_ex(uint32_t duration);
+
+    // try to sniff an code, expecting nec starting frame
+    void recv_nec_custom(uint32_t duration);
+
+    bool wait_for_leader(uint32_t duration);
+  private:
+    uint32_t pin;
+    GPIO::GPIO *gpio;
+    Timer::Timer *timer;
+    bool low_active = true;
+  };
 }
 
 #endif
