@@ -30,6 +30,7 @@ std::string decode(std::vector<uint32_t> &seqs)
         abs((int)seqs[i+2] - 560) < 100) {
       repeat++;
     }
+    i += 3;
   }
 
   assert(buffer.size() == 32);
@@ -55,7 +56,7 @@ std::string decode(std::vector<uint32_t> &seqs)
     cmd = (cmd << 1) | buffer[i];
   }
   char result[32];
-  snprintf(result, 32, "addr: %x, cmd: %x, rep: %d", addr, cmd, repeat);
+  snprintf(result, 32, "addr: 0x%x, cmd: 0x%x, rep: %d", addr, cmd, repeat);
 
   return std::string(result);
 }
