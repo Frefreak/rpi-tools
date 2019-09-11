@@ -11,7 +11,7 @@ void replay(uint8_t pin, pulses sample)
 
   auto gpio = GPIO::GPIO();
   gpio.set_func(pin, GPIO::output);
-  for (long long i = 0; i < sample.length; i++) {
+  for (unsigned long i = 0; i < sample.length; i++) {
     gpio.set_out(pin, sample.data[i]);
     timer.do_delay();
   }

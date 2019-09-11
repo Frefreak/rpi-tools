@@ -1,6 +1,5 @@
-project('rpi-tools', 'cpp', default_options: [
-  'cpp_std=c++14'
-])
+project('rpi-tools', 'cpp')
+add_project_arguments('-std=c++14', language: 'cpp')
 
 subdir('gpio')
 subdir('timer')
