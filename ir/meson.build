@@ -6,3 +6,6 @@ libir = declare_dependency(link_with: libir,
 
 executable('test_nec', 'test.cc', dependencies: [libir])
 executable('test_nec_recv', 'test_recv.cc', dependencies: [libir])
+
+executable('nec_re', ['ir_re.cc', 'nec_standard.cc'],
+	   dependencies: [libir], install: true)
