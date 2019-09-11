@@ -56,7 +56,7 @@ std::string decode(std::vector<uint32_t> &seqs)
     cmd = (cmd << 1) | buffer[i];
   }
   char result[32];
-  snprintf(result, 32, "addr: 0x%x, cmd: 0x%x, rep: %d", addr, cmd, repeat);
+  snprintf(result, 32, "addr: 0x%02x, cmd: 0x%02x, rep: %d", addr, cmd, repeat);
 
   return std::string(result);
 }
