@@ -7,7 +7,7 @@ extern std::string decode(std::vector<uint32_t> &seqs);
 int main(int argc, char **argv)
 {
   if (argc != 2) {
-    std::cout << "Usage: ir_re <gpio pin>\n";
+    std::cout << "Usage: " << argv[0] << " <gpio pin>\n";
     exit(1);
   }
 
