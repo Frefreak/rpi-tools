@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <vector>
 #include <cmath>
+#include <cassert>
 
 std::string decode(std::vector<uint32_t> &seqs)
 {
@@ -21,7 +22,7 @@ std::string decode(std::vector<uint32_t> &seqs)
       return "";
     }
   }
-  int i = 68;
+  uint32_t i = 68;
   int repeat = 0;
   while (seqs.size() >= i + 3) {
     if (abs((int)seqs[i] - 9000) < 400 &&
