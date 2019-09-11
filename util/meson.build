@@ -1,7 +1,7 @@
 common = {
   'dependencies': [libgpio, libtimer],
   'install': true,
-  'install_rpath': get_option('prefix') / 'lib',
+  'install_rpath': get_option('prefix') / get_option('libdir'),
 }
 executable('receiver', 'receiver.cc', kwargs: common)
 executable('replay', 'replay.cc', kwargs: common)
