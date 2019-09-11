@@ -22,7 +22,7 @@ pulses sample(uint32_t pin, uint32_t interval, float duration)
   auto timer = Timer::Timer();
   timer.set_duration(interval);
   std::cout << pin << ' ' << interval << '\n';
-  for (long long i = 0; i < iter; i++) {
+  for (unsigned long i = 0; i < iter; i++) {
     data[i] = gpio.get(pin);
     timer.do_delay();
   }
