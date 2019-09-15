@@ -31,14 +31,21 @@ std::map<std::string, u_char> cmds = {
 
 int main(int argc, char **argv)
 {
-  if (argc != 3) {
-    std::cout << "Usage: tv_ctrl <gpio pin> <cmd>\n";
+  if (argc != 3 && argc != 4) {
+    std::cout << "Usage: tv_ctrl <gpio pin> <cmd> [repeat]\n";
     exit(1);
+  }
+  int rep = -1;
+  if (argc == 4) {
+    rep = atoi(argv[3]);
   }
 
   if (cmds.find(argv[2]) != cmds.end()) {
     auto nec = NEC::NEC(atoi(argv[1]));
-    nec.send_nec(0x40, cmds[argv[2]]);
+    if (rep != -1)
+      nec.send_nec(0x40, cmds[argv[2]], rep);
+    else
+      nec.send_nec(0x40, cmds[argv[2]]);
   } else {
     std::cout << "command not found\n";
   }
