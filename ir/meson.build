@@ -9,5 +9,7 @@ executable('test_nec_recv', 'test_recv.cc', dependencies: [libir])
 
 executable('nec_re', ['ir_re.cc', 'nec_standard.cc'],
 	   dependencies: [libir], install: true, install_rpath: get_option('prefix') / get_option('libdir'))
+executable('nec_custom_re', ['ir_re.cc', 'nec_custom_re.cc'],
+	   dependencies: [libir], install: true, install_rpath: get_option('prefix') / get_option('libdir'))
 executable('tv_ctrl', ['tv_ctrl.cc'],
 	   dependencies: [libir], install: true, install_rpath: get_option('prefix') / get_option('libdir'))
