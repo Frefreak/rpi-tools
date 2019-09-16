@@ -85,13 +85,12 @@ std::string decode(std::vector<uint32_t> &seqs)
   std::vector<bool> buffer = {};
   for (int i = 2; i < 72; i += 2) {
     if (abs((int)seqs[i] - 600) < 100) {
-      long m = round(seqs[i + 1] / (float)seqs[i]);
-      if (m == 1) {
-        buffer.push_back(false);
-      } else if (m == 3) {
+      if (abs((int)seqs[i+1] - 1600) < 200) {
         buffer.push_back(true);
+      } else if (abs((int)seqs[i+1] - 600) < 200) {
+        buffer.push_back(false);
       } else {
-      std::cout << "encountered duration tuple of " << seqs[i] << "," << seqs[i+1] << ", error out\n";
+        std::cout << "encountered duration tuple of " << seqs[i] << "," << seqs[i+1] << ", error out\n";
       }
     } else {
       std::cout << "encountered duration of " << seqs[i] << ", index " << i << ", error out\n";
@@ -101,13 +100,12 @@ std::string decode(std::vector<uint32_t> &seqs)
 
   for (int i = 74; i < 138; i += 2) {
     if (abs((int)seqs[i] - 600) < 100) {
-      long m = round(seqs[i + 1] / (float)seqs[i]);
-      if (m == 1) {
-        buffer.push_back(false);
-      } else if (m == 3) {
+      if (abs((int)seqs[i+1] - 1600) < 200) {
         buffer.push_back(true);
+      } else if (abs((int)seqs[i+1] - 600) < 200) {
+        buffer.push_back(false);
       } else {
-      std::cout << "encountered duration tuple of " << seqs[i] << "," << seqs[i+1] << ", error out\n";
+        std::cout << "encountered duration tuple of " << seqs[i] << "," << seqs[i+1] << ", error out\n";
       }
     } else {
       std::cout << "encountered duration of " << seqs[i] << ", index " << i << ", error out\n";
