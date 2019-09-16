@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include <cassert>
+#include <algorithm>
 
 /*
  * 9000 4500 
