@@ -13,3 +13,5 @@ executable('nec_custom_re', ['ir_re.cc', 'nec_custom.cc'],
 	   dependencies: [libir], install: true, install_rpath: get_option('prefix') / get_option('libdir'))
 executable('tv_ctrl', ['tv_ctrl.cc'],
 	   dependencies: [libir], install: true, install_rpath: get_option('prefix') / get_option('libdir'))
+
+executable('ybof2_test', 'YBOF2_test.cc')

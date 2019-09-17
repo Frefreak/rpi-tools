@@ -120,6 +120,6 @@ std::string decode(std::vector<uint32_t> &seqs)
   char result[total_length + 1];
   result[35] = ' ';
   std::transform(buffer.begin(), buffer.begin() + 35, result, tochar);
-  std::transform(buffer.begin() + 36, buffer.end(), result + 36, tochar);
+  std::transform(buffer.begin() + 35, buffer.end(), result + 36, tochar);
   return std::string(result);
 }
