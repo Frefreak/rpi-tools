@@ -12,8 +12,8 @@ const u32 cfixed5 = 0b0;
 
 struct YBOF2 {
   YBOF2(): mode(0b001), power(0), wind(0b01), sweep(0), sleep(0), temp(0b1010),
-           timer(0), strong(0), light(1), health(1), dry(0), air(0), fixed1(cfixed1),
-           ud_swp(1), fixed2(cfixed2), lr_swp(1), fixed3(cfixed3), temp_display(0),
+           timer(0), strong(0), light(1), health(0), dry(0), air(0), fixed1(cfixed1),
+           ud_swp(0), fixed2(cfixed2), lr_swp(0), fixed3(cfixed3), temp_display(0),
            fixed4(cfixed4), pwr_save(0), fixed5(cfixed5) {}
   u32 mode  : 3;
   u32 power : 1;
@@ -79,7 +79,10 @@ struct YBOF2 {
     post += bit2ch(pwr_save, 1);
     post += bit2ch(fixed5, 1);
 
-    u32 checksum = (mode - 1) + temp + 5 + lr_swp + air + pwr_save - power;
+    //http://www.zanks.cn/blog/ac-controller/gree-ac.html
+    u32 checksum = (mode - 1) + temp + 5 + lr_swp + air + pwr_save;
+    if (power == 0)
+      checksum ^= 1 << 3;
     post += bit2ch(checksum, 4);
 
     return std::make_pair(pre, post);
