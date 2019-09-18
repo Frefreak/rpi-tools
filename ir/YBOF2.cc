@@ -2,7 +2,9 @@
 #include <string>
 #include <utility>
 #include <tuple>
+#include <cassert>
 
+using u8 = uint8_t;
 using u32 = uint32_t;
 const u32 cfixed1 = 0b0100101000;
 const u32 cfixed2 = 0b000;
@@ -120,7 +122,7 @@ struct YBOF2 {
     dest[0] = ini;
     int ins = 1;
     char temp;
-    for (int i = 8 - padding; i < all.length(); i++) {
+    for (u8 i = 8 - padding; i < all.length(); i++) {
       int bit_idx = (i - (8 - padding)) % 8;
       if (bit_idx == 0)
         temp = 0;
