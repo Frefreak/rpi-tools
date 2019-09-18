@@ -40,6 +40,7 @@ struct YBOF2 {
 
 
   void decode(std::string pre, std::string post) {
+    // unimplemented
     ;
   }
 
@@ -86,5 +87,51 @@ struct YBOF2 {
     post += bit2ch(checksum, 4);
 
     return std::make_pair(pre, post);
+  }
+
+  inline void set_bit(char *n, int k) {
+    *n |= 1UL << k;
+  }
+  inline void clr_bit(char *n, int k) {
+    *n &= ~(1UL << k);
+  }
+
+  // requires 9 bytes of space
+  void encode_b(char *dest) {
+    auto p = encode();
+    std::string pre = std::get<0>(p);
+    std::string post = std::get<1>(p);
+
+    assert(pre.length() == 35);
+    assert(post.length() == 32);
+
+    std::string all = pre + post;
+
+    int total = (pre.length() + post.length()) / 8 + 1;
+    int padding = total * 8 - pre.length() - post.length();
+    char ini = (1 << padding) - 1;
+    for (int i = 0; i < 8 - padding; i++) {
+      if (all[i] == '1') {
+        set_bit(&ini, padding + i);
+      } else {
+        clr_bit(&ini, padding + i);
+      }
+    }
+    dest[0] = ini;
+    int ins = 1;
+    char temp;
+    for (int i = 8 - padding; i < all.length(); i++) {
+      int bit_idx = (i - (8 - padding)) % 8;
+      if (bit_idx == 0)
+        temp = 0;
+
+      if (all[i] == '1')
+        set_bit(&temp, bit_idx);
+      else
+        clr_bit(&temp, bit_idx);
+
+      if (bit_idx == 7)
+        dest[ins++] = temp;
+    }
   }
 };
