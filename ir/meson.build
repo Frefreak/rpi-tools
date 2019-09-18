@@ -15,3 +15,5 @@ executable('tv_ctrl', ['tv_ctrl.cc'],
 	   dependencies: [libir], install: true, install_rpath: get_option('prefix') / get_option('libdir'))
 
 executable('ybof2_test', 'YBOF2_test.cc')
+
+executable('ac_ctrl', 'ac_ctrl.cc', cpp_pch: '../pch/CLI11.hh')

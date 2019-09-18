@@ -6,17 +6,18 @@
 
 using u8 = uint8_t;
 using u32 = uint32_t;
-const u32 cfixed1 = 0b0100101000;
-const u32 cfixed2 = 0b000;
-const u32 cfixed3 = 0b000;
-const u32 cfixed4 = 0b0000000000001000;
-const u32 cfixed5 = 0b0;
-
 struct YBOF2 {
   YBOF2(): mode(0b001), power(0), wind(0b01), sweep(0), sleep(0), temp(0b1010),
            timer(0), strong(0), light(1), health(0), dry(0), air(0), fixed1(cfixed1),
            ud_swp(0), fixed2(cfixed2), lr_swp(0), fixed3(cfixed3), temp_display(0),
            fixed4(cfixed4), pwr_save(0), fixed5(cfixed5) {}
+
+  const u32 cfixed1 = 0b0100101000;
+  const u32 cfixed2 = 0b000;
+  const u32 cfixed3 = 0b000;
+  const u32 cfixed4 = 0b0000000000001000;
+  const u32 cfixed5 = 0b0;
+
   u32 mode  : 3;
   u32 power : 1;
   u32 wind  : 2;
