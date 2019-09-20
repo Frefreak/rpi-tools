@@ -6,12 +6,35 @@
 struct Arg {
   u_char ce;
   std::string conf_fp = ".config/ac_ctrl.yaml";
+  uint32_t dest_addr;
+  u_char mask;
 };
 
 void read_conf(Arg &arg)
 {
   //std::cout << arg.conf_fp << '\n';
 }
+
+#ifdef USE_RF24
+
+bool send_to_arduino(YBOF2 remote)
+{
+  char buffer[9];
+  remote.encode_b(buffer);
+  return true;
+}
+
+#else
+
+bool send_to_arduino(YBOF2 remote)
+{
+  std::cout << "RF24 library not found, mimicking...\n";
+  auto p = remote.encode();
+  std::cout << std::get<0>(p) << ' ' << std::get<1>(p) << '\n';
+  return false;
+}
+
+#endif
 
 void do_cmd_power(CLI::App *cmd, Arg &arg)
 {
@@ -22,8 +45,11 @@ void do_cmd_power(CLI::App *cmd, Arg &arg)
     remote.power = 1;
   else
     remote.power = 0;
-  auto p = remote.encode();
-  std::cout << std::get<0>(p) << ' ' << std::get<1>(p) << '\n';
+
+
+  if (!send_to_arduino(remote)) {
+    exit(1);
+  }
 }
 
 void do_cmd_version()
@@ -39,6 +65,8 @@ int main(int argc, char *argv[])
 
   app.add_option("-p,--pin", arg.ce, "CE PIN used in RF24 lib");
   app.add_option("-c,--conf", arg.conf_fp, "config file");
+  app.add_option("-d,--dest", arg.dest_addr, "RF24 destination address", 0x65646f4e32);
+  app.add_option("-m,--mask", arg.mask, "xor mask when sending via RF24", 0b10101010);
 
   app.parse_complete_callback([&arg] { read_conf(arg); });
 
