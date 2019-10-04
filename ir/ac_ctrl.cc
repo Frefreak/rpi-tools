@@ -4,10 +4,10 @@
 #include <YBOF2.cc>
 
 struct Arg {
-  u_char ce;
+  u_char ce = 21;
   std::string conf_fp = ".config/ac_ctrl.yaml";
-  uint32_t dest_addr;
-  u_char mask;
+  uint64_t dest_addr = 0x65646f4e32;
+  u_char mask = 0b10101010;
 };
 
 void read_conf(Arg &arg)
@@ -17,21 +17,34 @@ void read_conf(Arg &arg)
 
 #ifdef USE_RF24
 
-bool send_to_arduino(YBOF2 remote)
+void send_to_arduino(YBOF2 remote, Arg &arg)
 {
   char buffer[9];
   remote.encode_b(buffer);
-  return true;
+  for (auto &ch: buffer)
+    ch = ch ^ arg.mask;
+
+  RF24 radio(arg.ce, 0);
+  radio.begin();
+  radio.setRetries(15, 15);
+  radio.setChannel(120);
+  radio.openWritingPipe(arg.dest_addr);
+
+  radio.write(buffer, sizeof(buffer));
 }
 
 #else
 
-bool send_to_arduino(YBOF2 remote)
+void send_to_arduino(YBOF2 remote, Arg &arg)
 {
   std::cout << "RF24 library not found, mimicking...\n";
   auto p = remote.encode();
   std::cout << std::get<0>(p) << ' ' << std::get<1>(p) << '\n';
-  return false;
+
+  std::cout << "ce: " << static_cast<int>(arg.ce) << std::endl;
+  std::cout << "conf_fp" << arg.conf_fp << std::endl;
+  std::cout << "dest_addr: " << std::hex << arg.dest_addr << std::endl;
+  std::cout << "mask: " << std::hex << static_cast<int>(arg.mask) << std::endl;
 }
 
 #endif
@@ -47,9 +60,7 @@ void do_cmd_power(CLI::App *cmd, Arg &arg)
     remote.power = 0;
 
 
-  if (!send_to_arduino(remote)) {
-    exit(1);
-  }
+  send_to_arduino(remote, arg);
 }
 
 void do_cmd_version()
@@ -63,10 +74,10 @@ int main(int argc, char *argv[])
 
   Arg arg = Arg();
 
-  app.add_option("-p,--pin", arg.ce, "CE PIN used in RF24 lib");
+  app.add_option("-p,--pin", arg.ce, "CE PIN used in RF24 lib (default: 21)");
   app.add_option("-c,--conf", arg.conf_fp, "config file");
-  app.add_option("-d,--dest", arg.dest_addr, "RF24 destination address", 0x65646f4e32);
-  app.add_option("-m,--mask", arg.mask, "xor mask when sending via RF24", 0b10101010);
+  app.add_option("-d,--dest", arg.dest_addr, "RF24 destination address");
+  app.add_option("-m,--mask", arg.mask, "xor mask when sending via RF24");
 
   app.parse_complete_callback([&arg] { read_conf(arg); });
 
