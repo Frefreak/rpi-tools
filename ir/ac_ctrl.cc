@@ -2,6 +2,9 @@
 #include <string>
 #include <cstdint>
 #include <YBOF2.cc>
+#ifdef USE_RF24
+#include <RF24/RF24.h>
+#endif
 
 struct Arg {
   u_char ce = 21;
@@ -30,6 +33,8 @@ void send_to_arduino(YBOF2 remote, Arg &arg)
   radio.setChannel(120);
   radio.openWritingPipe(arg.dest_addr);
 
+  for (auto &ch: buffer)
+    std::cout << (int)ch << std::endl;
   radio.write(buffer, sizeof(buffer));
 }
 
