@@ -33,9 +33,6 @@ void send_to_arduino(YBOF2 remote, Arg &arg)
   radio.setChannel(120);
   radio.openWritingPipe(arg.dest_addr);
 
-  for (auto &ch: buffer)
-    std::cout << (int)ch << std::endl;
-
   auto p = remote.encode();
   std::cout << std::get<0>(p) << std::endl;
   std::cout << std::get<1>(p) << std::endl;
